@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { OctagonAlert } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
-import { useRouter } from "next/navigation";
+
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -19,6 +19,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { useRouter } from "next/navigation";
 
 const formSchema = z
   .object({
@@ -68,6 +69,25 @@ const SignUpView = () => {
     );
   };
 
+  const onSocial = async (provider: "github" | "google") => {
+    console.log(provider);
+    setError("");
+    setPending(true);
+    authClient.signIn.social(
+      { provider },
+      {
+        onSuccess: (data) => {
+          console.log(data);
+          setPending(false);
+        },
+        onError: ({ error }) => {
+          console.log(error);
+          setPending(false);
+          setError(error?.message);
+        },
+      }
+    );
+  };
   return (
     <div className="flex flex-col gap-6">
       <Card className="p-0 overflow-hidden">
@@ -181,6 +201,7 @@ const SignUpView = () => {
                     disabled={pending}
                     type="button"
                     className="w-full"
+                    onClick={() => onSocial("google")}
                   >
                     Google
                   </Button>
@@ -189,6 +210,7 @@ const SignUpView = () => {
                     disabled={pending}
                     type="button"
                     className="w-full"
+                    onClick={() => onSocial("github")}
                   >
                     GitHub
                   </Button>

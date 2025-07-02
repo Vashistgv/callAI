@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { OctagonAlert } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
-import { useRouter } from "next/navigation";
+
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -26,7 +26,6 @@ const formSchema = z.object({
 });
 
 const SignInView = () => {
-  const router = useRouter();
   const [error, setError] = useState("");
   const [pending, setPending] = useState(false);
 
@@ -43,12 +42,31 @@ const SignInView = () => {
     setError("");
     setPending(true);
     authClient.signIn.email(
-      { email: data.email, password: data.password },
+      { ...data, callbackURL: "/" },
       {
         onSuccess: (data) => {
           console.log(data);
           setPending(false);
-          router.push("/");
+        },
+        onError: ({ error }) => {
+          console.log(error);
+          setPending(false);
+          setError(error?.message);
+        },
+      }
+    );
+  };
+
+  const onSocial = async (provider: "github" | "google") => {
+    console.log(provider);
+    setError("");
+    setPending(true);
+    authClient.signIn.social(
+      { provider, callbackURL: "/" },
+      {
+        onSuccess: (data) => {
+          console.log(data);
+          setPending(false);
         },
         onError: ({ error }) => {
           console.log(error);
@@ -135,12 +153,14 @@ const SignInView = () => {
                     disabled={pending}
                     type="button"
                     className="w-full"
+                    onClick={() => onSocial("google")}
                   >
                     Google
                   </Button>
                   <Button
                     variant={"outline"}
                     disabled={pending}
+                    onClick={() => onSocial("github")}
                     type="button"
                     className="w-full"
                   >
