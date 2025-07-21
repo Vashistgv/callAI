@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-
+import { TRPCReactProvider } from "@/trpc/client";
+import { Toaster } from "@/components/ui/sonner";
 const inter = Inter({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -18,8 +19,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${inter.variable}  antialiased`}>{children}</body>
-    </html>
+    <TRPCReactProvider>
+      <html lang="en">
+        <body className={`${inter.variable}  antialiased`}>
+          <Toaster />
+          {children}
+        </body>
+      </html>
+    </TRPCReactProvider>
   );
 }
