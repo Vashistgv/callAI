@@ -6,6 +6,7 @@ import { ErrorState } from "@/components/ErrorState";
 import { LoadingState } from "@/components/LoadingState";
 import { DataTable } from "@/components/DataTable";
 import { columns } from "../components/Columns";
+import EmptyState from "@/components/EmptyState";
 export const MeetingViews = () => {
   const trpc = useTRPC();
 
@@ -13,6 +14,7 @@ export const MeetingViews = () => {
   return (
     <div>
       <DataTable data={data.items} columns={columns} />
+      <EmptyState title="No Meetings" description="Please Add Meetings" />
     </div>
   );
 };
