@@ -4,11 +4,17 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import React from "react";
 import { ErrorState } from "@/components/ErrorState";
 import { LoadingState } from "@/components/LoadingState";
+import { DataTable } from "@/components/DataTable";
+import { columns } from "../components/Columns";
 export const MeetingViews = () => {
   const trpc = useTRPC();
 
   const { data } = useSuspenseQuery(trpc.meetings.getMany.queryOptions({}));
-  return <div>data table</div>;
+  return (
+    <div>
+      <DataTable data={data.items} columns={columns} />
+    </div>
+  );
 };
 
 MeetingViews;

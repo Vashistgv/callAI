@@ -5,7 +5,7 @@ import { useSuspenseQuery } from "@tanstack/react-query";
 import { LoadingState } from "@/components/LoadingState";
 import { ErrorState } from "@/components/ErrorState";
 import EmptyState from "@/components/EmptyState";
-import { DataTable } from "../components/DataTable";
+import { DataTable } from "../../../../components/DataTable";
 import { columns } from "../components/Columns";
 import { useAgentsFilters } from "../../hooks/use-agents-filters";
 import DataPagination from "../components/DataPagination";
