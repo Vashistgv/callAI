@@ -6,6 +6,7 @@ import NewAgentDialog from "./NewAgentDialog";
 import AgentsSearchFilters from "./AgentsSearchFilters";
 import { useAgentsFilters } from "../../hooks/use-agents-filters";
 import { DEFAULT_PAGE } from "@/constants";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
 const AgentListHeaders = () => {
   const [isDialogOpen, setIsDialogOpen] = React.useState(false);
@@ -27,15 +28,18 @@ const AgentListHeaders = () => {
             <PlusIcon /> New Agents
           </Button>
         </div>
-        <div className="flex intems-center gap-x-2 p-1">
-          <AgentsSearchFilters />
-          {isFiltersActive && (
-            <Button size="sm" variant={"outline"} onClick={onClearFilters}>
-              <XCircleIcon />
-              Clear filters
-            </Button>
-          )}
-        </div>
+        <ScrollArea>
+          <div className="flex intems-center gap-x-2 p-1">
+            <AgentsSearchFilters />
+            {isFiltersActive && (
+              <Button size="sm" variant={"outline"} onClick={onClearFilters}>
+                <XCircleIcon />
+                Clear filters
+              </Button>
+            )}
+          </div>
+          <ScrollBar orientation="horizontal" />
+        </ScrollArea>
       </div>
     </>
   );

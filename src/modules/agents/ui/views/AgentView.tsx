@@ -8,7 +8,7 @@ import EmptyState from "@/components/EmptyState";
 import { DataTable } from "../../../../components/DataTable";
 import { columns } from "../components/Columns";
 import { useAgentsFilters } from "../../hooks/use-agents-filters";
-import DataPagination from "../components/DataPagination";
+import DataPagination from "../../../../components/DataPagination";
 import { useRouter } from "next/navigation";
 
 export const AgentView = () => {
