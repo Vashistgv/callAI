@@ -13,6 +13,10 @@ import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { UseConfirm } from "@/hooks/use-confirmation";
 import UpdateMeetingDialog from "../components/UpdateMeetingDialog";
+import UpComingState from "../components/UpComingState";
+import ActiveState from "../components/ActiveState";
+import CancelledState from "../components/CancelledState";
+import ProcessingState from "../components/ProcessingState";
 
 interface MeetingIdViewProps {
   meetingId: string;
@@ -52,6 +56,12 @@ export const MeetingIdView = ({ meetingId }: MeetingIdViewProps) => {
     }
   };
 
+  const isActive = data.status === "active";
+  const isCompleted = data.status === "completed";
+  const isCancelled = data.status === "cancelled";
+  const isProcessing = data.status === "processing";
+  const isUpcoming = data.status === "upcoming";
+
   return (
     <>
       <RemoveConfirmation />
@@ -67,6 +77,17 @@ export const MeetingIdView = ({ meetingId }: MeetingIdViewProps) => {
           onEdit={() => setUpdateMeetingDialogOpen(true)}
           onRemove={handleRemoveMeeting}
         />
+        {isProcessing && <ProcessingState />}
+        {isUpcoming && (
+          <UpComingState
+            meetingId={meetingId}
+            onCancelMeeting={() => {}}
+            isCancelling={false}
+          />
+        )}
+        {isCompleted && <div>Completed</div>}
+        {isCancelled && <CancelledState />}
+        {isActive && <ActiveState meetingId={meetingId} />}
       </div>
     </>
   );
